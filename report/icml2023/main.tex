@@ -206,7 +206,7 @@ Setup & mAP50 & Recall & Images \\
 \end{tabular}
 \end{table}
 
-Starting with 16 fine-grained classes was our initial mistake---the per-class analysis from the ablation experiments is what revealed this, and restructuring the task into a single detection class with diverse sampling fixed it.
+The initial 16-class formulation proved too granular for our data---the per-class analysis from the ablation is what revealed this, and restructuring into a single detection class with diverse sampling resolved it.
 
 \begin{figure*}[t]
 \centering
@@ -215,6 +215,13 @@ Starting with 16 fine-grained classes was our initial mistake---the per-class an
 \includegraphics[width=0.48\textwidth]{figures/per_class_ap.png}
 \caption{\textbf{Left:} Speed--accuracy trade-off across the 14 CNN ablation experiments. \textbf{Right:} Per-class AP50 heatmap showing that only \texttt{interactive} and \texttt{form\_input} are consistently detected in the 5-class setting, motivating the 1-class consolidation.}
 \label{fig:yolo_figures}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/training_curves.png}
+\caption{\textbf{Left:} Validation mAP50 over 25 training epochs. The 1-class diverse model converges to 0.323, while the 5-class baseline remains near zero throughout. YOLOv8s and the best combination reach similar plateaus ($\sim$0.13). \textbf{Right:} Training box loss decreases for all configurations, confirming that all models are learning---the 5-class baseline's low mAP50 reflects task formulation issues rather than optimization failure.}
+\label{fig:training_curves}
 \end{figure*}
 
 % ============================================================

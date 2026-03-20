@@ -6,11 +6,11 @@
 
 We apply YOLOv8 (a CNN-based object detector) to detecting UI elements in web page screenshots. We crawl ~260K screenshots from the Tranco Top 1M, then conduct **14 controlled ablation experiments** covering architectures, layers, optimizers, pooling, and activation functions.
 
-The main finding: **data preparation matters more than hyperparameters.** Our iterative data pipeline (16 classes → 5 classes → 1 class with deduplication and diverse sampling) improves mAP50 from 0.136 to **0.323** — a 2.4x gain using the same model. This independently confirms OmniParser's single-class approach on our own data.
+The ablation's per-class analysis revealed that 3 of 5 classes were undetectable regardless of configuration. Following this finding, we restructured the task into single-class detection with deduplication and diverse sampling, improving mAP50 from 0.136 to **0.323** (2.4x) — supporting OmniParser's single-class approach on independent data.
 
-We also train a DeBERTa text classifier as a practical extension.
+We also train a DeBERTa text classifier as a bonus exploration for prompt injection detection.
 
-Development was assisted by Claude Code.
+Development of the report and scripts was assisted by Claude Code.
 
 ## Setup
 
@@ -45,7 +45,7 @@ python train_yolo.py --experiment arch  # Run specific group
 python train_yolo.py --summary          # Print results
 ```
 
-### 4. Train text classifier (practical extension)
+### 4. Train text classifier (bonus)
 
 ```bash
 python train_injection_classifier.py              # Train DeBERTa classifier
@@ -81,8 +81,8 @@ python generate_figures.py
 │   ├── custom_yolo_avgpool.yaml   # Average pooling variant
 │   └── sppf_avg.py                # AvgPool2d SPPF module
 ├── report/icml2023/               # LaTeX report (ICML format)
-├── results_yolo_5cls/             # 14 ablation experiment results (JSON)
-├── results_yolo_1cls/             # 1-class experiment results (JSON)
+├── results_yolo_5cls/             # 14 ablation results (JSON + per-epoch CSV)
+├── results_yolo_1cls/             # 1-class experiment results (JSON + CSV)
 ├── results_classifier/            # 17 classifier experiment results (JSON)
 └── optimized_models/              # ONNX quantization benchmark results
 ```
@@ -96,15 +96,15 @@ python generate_figures.py
 | (a) Architecture | YOLOv8s (11.2M) best; YOLOv8m (25.9M) no further gain | 0.134 |
 | (b) Layers | Doubling depth does not improve over baseline | 0.107 |
 | (c) Optimizer | AdamW slightly better recall than SGD | 0.110 |
-| (d) Pooling | Max pooling > average pooling | 0.108 vs 0.106 |
-| (e) Activation | SiLU > ReLU | 0.108 vs 0.103 |
+| (d) Pooling | Max pooling slightly outperforms average pooling | 0.108 vs 0.106 |
+| (e) Activation | SiLU slightly outperforms ReLU | 0.108 vs 0.103 |
 
-### Final Model (1-class, cleaned data)
+### Final Model (1-class, restructured task)
 
 | Model | mAP50 | Precision | Recall | CPU (ms) |
 |---|---|---|---|---|
 | YOLOv8n, 1-class diverse (47K images) | **0.323** | 0.427 | 0.426 | 19.8 |
 
-Architecture choice dominated all hyperparameters, but data refinement (16→5→1 class consolidation + deduplication + diverse sampling) produced the largest single improvement (2.4x).
+Architecture produced the largest single-factor gains among hyperparameters. The ablation's per-class analysis then revealed that the initial 16-class formulation was too granular, leading to the 1-class restructuring (2.4x improvement).
 
-All experiment results are included as JSON files in the `results_*/` directories, so paper numbers can be verified without retraining.
+All experiment results are included as JSON and CSV files in the `results_*/` directories, so paper numbers and training curves can be verified without retraining.
