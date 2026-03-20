@@ -36,7 +36,7 @@
 
 % ============================================================
 \begin{abstract}
-We apply YOLOv8, a convolutional neural network (CNN) for object detection, to the task of localizing UI elements in web page screenshots. We crawl $\sim$260K screenshots from the Tranco Top~1M websites and conduct \textbf{14 controlled ablation experiments} covering (a)~architectures (YOLOv8n/s/m and a custom model), (b)~network depth, (c)~optimizers (SGD vs.\ AdamW), (d)~pooling (max vs.\ average), and (e)~activation functions (SiLU vs.\ ReLU), plus learning rate, resolution, augmentation, and initialization. We find that architecture choice dominates all other hyperparameters, but the biggest improvement comes from \textbf{data preparation}: consolidating 16 noisy classes into a single \texttt{ui\_element} class with deduplication and diverse sampling improves mAP50 from 0.136 (best 5-class) to \textbf{0.323} (1-class)---a 2.4$\times$ gain using the same model. This confirms OmniParser's~\cite{omniparser} single-class approach on independent data. Development of the report and scripts was assisted by Claude Code.
+We apply YOLOv8, a convolutional neural network (CNN) for object detection, to the task of localizing UI elements in web page screenshots. We crawl $\sim$260K screenshots from the Tranco Top~1M websites and conduct \textbf{14 controlled ablation experiments} covering (a)~architectures (YOLOv8n/s/m and a custom model), (b)~network depth, (c)~optimizers (SGD vs.\ AdamW), (d)~pooling (max vs.\ average), and (e)~activation functions (SiLU vs.\ ReLU), plus learning rate, resolution, augmentation, and initialization. We find that architecture produces the largest single-factor gains, while other hyperparameters yield smaller but consistent effects. The ablation's per-class analysis also revealed that 3 of 5 classes were undetectable regardless of configuration, leading us to restructure the task into single-class detection with deduplication and diverse sampling---improving mAP50 from 0.136 to \textbf{0.323} (2.4$\times$) using the same model. This supports OmniParser's~\cite{omniparser} single-class approach on independent data. Development of the report and scripts was assisted by Claude Code.
 \end{abstract}
 
 % ============================================================
@@ -46,7 +46,7 @@ For this project we wanted to apply CNN-based object detection to a non-standard
 
 The practical motivation is browser agent security: LLM-powered agents~\cite{browseruse} that navigate websites can be tricked by hidden elements in the DOM~\cite{greshake2023}. A CNN that detects elements from the rendered screenshot only sees what is actually visible, naturally filtering hidden attacks. But for this report, our main focus is the CNN ablation study itself---systematically testing how different hyperparameter choices affect detection performance, as we did with simpler CNNs in the homework assignments.
 
-We conduct 14 experiments varying one factor at a time, covering all five hyperparameter categories from the project guidelines: (a)~architectures, (b)~number of layers, (c)~optimizers, (d)~pooling functions, and (e)~activation functions. Based on the per-class results from the ablation, we iterated on the data pipeline (16 classes $\to$ 5 classes $\to$ 1 class with deduplication and diverse sampling), achieving a 2.4$\times$ improvement over our best ablation result.
+We conduct 14 experiments varying one factor at a time, covering all five hyperparameter categories from the project guidelines: (a)~architectures, (b)~number of layers, (c)~optimizers, (d)~pooling functions, and (e)~activation functions. Based on the per-class results from the ablation, we iterated on the data pipeline (16 classes $\to$ 5 classes $\to$ 1 class with deduplication and diverse sampling), achieving a 2.4$\times$ improvement following insights from the ablation.
 
 % ============================================================
 \section{Related Work}
@@ -147,17 +147,17 @@ baseline & 0.002 & 0.001 & 0.002 & 0.005 & 1112 & 5.9 \\
 
 \subsection{Analysis of Hyperparameter Effects}
 
-\textbf{(a) Architecture matters most.} YOLOv8s (11.2M parameters) jumps to mAP50=0.134 from the near-zero YOLOv8n baseline (0.002). YOLOv8m (25.9M) does not improve further despite 2.3$\times$ more parameters---on limited data, bigger models hit diminishing returns fast.
+\textbf{(a) Architecture matters most.} YOLOv8s (11.2M parameters) jumps to mAP50=0.134 from the near-zero YOLOv8n baseline (0.002, which reflects the severe class imbalance in the 5-class formulation). YOLOv8m (25.9M) does not improve further despite 2.3$\times$ more parameters---on limited data, bigger models hit diminishing returns fast.
 
 \textbf{(b) More layers do not help.} Doubling C2f depth produces 0.107 mAP50---no better than the baseline-depth model trained from scratch (0.108), but slower (28ms vs.\ 19ms CPU). Extra layers add cost without benefit on this dataset.
 
 \textbf{(c) AdamW vs.\ SGD.} AdamW gets 0.110 vs.\ SGD's 0.108---a tiny difference compared to architecture effects. AdamW does give slightly better recall (0.156 vs.\ 0.133).
 
-\textbf{(d) Max pooling beats average pooling.} AvgPool2d in SPPF yields 0.106 vs.\ 0.108 with MaxPool2d. Max pooling preserves sharp features like edges of buttons and input fields. The difference is small (0.002 mAP50).
+\textbf{(d) Max pooling slightly outperforms average pooling.} AvgPool2d in SPPF yields 0.106 vs.\ 0.108 with MaxPool2d. Max pooling preserves sharp features like edges of buttons and input fields. The difference is small (0.002 mAP50).
 
-\textbf{(e) SiLU beats ReLU.} Replacing SiLU with ReLU drops mAP50 from 0.108 to 0.103. SiLU's smooth gradient helps optimization---consistent with why modern architectures default to it over ReLU.
+\textbf{(e) SiLU slightly outperforms ReLU.} Replacing SiLU with ReLU drops mAP50 from 0.108 to 0.103. SiLU's smooth gradient helps optimization---consistent with why modern architectures default to it over ReLU.
 
-\textbf{Best combo.} Combining winners (YOLOv8s + AdamW + lr=0.001 + 1280px + no mosaic) gives only 0.136---just +0.002 over standalone YOLOv8s. Hyperparameter tuning has diminishing returns.
+\textbf{Best combo.} Combining winners (YOLOv8s + AdamW + lr=0.001 + 1280px + no mosaic) gives only 0.136---just +0.002 over standalone YOLOv8s. Combining the best settings from each axis yields only marginal additional gains.
 
 \textbf{Per-class breakdown.} Table~\ref{tab:yolo_perclass} reveals why: only \texttt{interactive} (0.375) and \texttt{form\_input} (0.288) classes are detectable. The other three classes are nearly zero regardless of hyperparameters, which led us to try consolidating to a single class.
 
@@ -181,14 +181,14 @@ imgsz\_1280 & 0.368 & 0.232 & 0.018 & 0.004 & 0.005 \\
 \subsection{Data Refinement: 1-Class Consolidation}
 \label{sec:1cls}
 
-Since OmniParser~\cite{omniparser} also uses a single detection class, we consolidated all annotations to one \texttt{ui\_element} class and applied two cleaning steps:
+Motivated by the ablation's per-class findings (Table~\ref{tab:yolo_perclass}) and OmniParser's single-class approach~\cite{omniparser}, we consolidated all annotations to one \texttt{ui\_element} class and applied two cleaning steps:
 
 \begin{enumerate}
     \item \textbf{Deduplication and noise removal}: removed duplicate bounding boxes (same coordinates rounded to 3 decimals) and tiny boxes ($<$0.01\% of image area).
     \item \textbf{Diverse sampling}: selected 1 image per domain (preferring top-of-page views), producing $\sim$47K training images from $\sim$15K unique domains instead of multiple similar screenshots per site.
 \end{enumerate}
 
-Table~\ref{tab:data_scaling} shows the result. The same YOLOv8n model that scored 0.002 on 5-class data now achieves \textbf{0.323 mAP50} on 1-class cleaned data---a 2.4$\times$ improvement over even our best 5-class experiment (YOLOv8s at 0.134), using the smallest model. Recall jumps from 0.005 to 0.426.
+Table~\ref{tab:data_scaling} shows the result. The same YOLOv8n model that scored 0.002 on 5-class data now achieves \textbf{0.323 mAP50} on 1-class cleaned data---a 2.4$\times$ improvement over our best 5-class experiment (YOLOv8s at 0.134) after reformulating the task and improving data quality. Recall jumps from 0.005 to 0.426.
 
 \begin{table}[h]
 \centering
@@ -220,17 +220,17 @@ Starting with 16 fine-grained classes was our initial mistake---the per-class an
 % ============================================================
 \section{Conclusion}
 
-We trained YOLOv8 for UI element detection in web screenshots, conducting 14 ablation experiments across all five standard CNN hyperparameter categories---architectures, layers, optimizers, pooling, and activations. The ablation identified real effects: architecture scale matters (YOLOv8s outperforms nano and medium), SiLU outperforms ReLU, and max pooling edges out average pooling. The per-class analysis also revealed that our initial 16-class taxonomy was too granular for the data we had---3 of 5 merged classes were undetectable regardless of hyperparameters. Restructuring into a single \texttt{ui\_element} class with deduplication and diverse sampling brought mAP50 from 0.136 to 0.323, confirming OmniParser's single-class approach on independent data.
+We trained YOLOv8 for UI element detection in web screenshots, conducting 14 ablation experiments across all five standard CNN hyperparameter categories---architectures, layers, optimizers, pooling, and activations. The ablation identified real effects: architecture scale matters (YOLOv8s outperforms nano and medium), SiLU outperforms ReLU, and max pooling edges out average pooling. The per-class analysis also revealed that our initial 16-class taxonomy was too granular for the data we had---3 of 5 merged classes were undetectable regardless of hyperparameters. Restructuring into a single \texttt{ui\_element} class with deduplication and diverse sampling brought mAP50 from 0.136 to 0.323, supporting OmniParser's single-class approach on independent data.
 
 % ============================================================
 \section{Bonus Points}
 
 \textbf{(b) Large-scale data collection and iterative preparation.} We built a custom Playwright-based web crawler that visits real websites from the Tranco Top~1M, captures multi-viewport screenshots, and extracts bounding box annotations from DOM element positions---producing $\sim$260K annotated training images. We then ran the full training pipeline multiple times: first with 16 classes, then with 5 merged classes, and finally with 1 consolidated class---each iteration informed by the previous round's per-class results. This iterative process of crawling, reorganizing, deduplicating, and retraining required significant effort beyond downloading an existing benchmark.
 
-\textbf{(a) Novel application: prompt injection classifier.} While YOLO can verify what elements exist in the visible frame, LLM-powered agents can also read elements that are off-screen or hidden in the DOM---meaning text-based attacks can bypass visual detection entirely. This makes text classification a natural next step for filtering harmful content. As a separate experiment, we trained a DeBERTa-v3-xsmall~\cite{deberta} text classifier (22M parameters) for detecting prompt injection attacks in UI element text. The model uses focal loss~\cite{focalloss} ($\gamma=2.0$, $\alpha=[0.7,0.3]$)---a variant of cross-entropy that down-weights easy examples so the model focuses on hard cases. We trained on 23K balanced examples from six public sources and ran 17 ablation experiments across architecture, loss function, class weighting, sequence length, and data composition. Table~\ref{tab:classifier_benchmarks} compares against two published baselines on independent benchmarks with zero training data overlap.
+\textbf{(a) Novel application: prompt injection classifier.} While the ablation study focuses on visual detection, the failure modes we identify (e.g., hidden or off-screen DOM elements that LLM agents can still read) motivate complementary text-based filtering. As a preliminary extension, we trained a DeBERTa-v3-xsmall~\cite{deberta} text classifier (22M parameters) for detecting prompt injection attacks in UI element text. The model uses focal loss~\cite{focalloss} ($\gamma=2.0$, $\alpha=[0.7,0.3]$)---a variant of cross-entropy that down-weights easy examples so the model focuses on hard cases. We trained on 23K balanced examples from six public sources and ran 17 ablation experiments across architecture, loss function, class weighting, sequence length, and data composition. Table~\ref{tab:classifier_benchmarks} compares against two published baselines on independent benchmarks with zero training data overlap.
 
 \begin{table}[h]
-\caption{Text classifier on independent benchmarks. Our 22M-parameter model outperforms larger baselines on most benchmarks.}
+\caption{Text classifier on independent benchmarks. Our 22M-parameter model achieves competitive performance against larger baselines.}
 \label{tab:classifier_benchmarks}
 \centering
 \small
@@ -252,7 +252,7 @@ InjecGuard (144) & Acc & \textbf{71.5} & 65.3 & 43.8 \\
 \end{tabular}
 \end{table}
 
-For deployment, we exported to ONNX with INT8 quantization, reducing latency from 16.1ms to 3.8ms (4.2$\times$ speedup) and model size from 271~MB to 83~MB.
+For deployment, we exported to ONNX with INT8 quantization, reducing latency from 16.1ms to 3.8ms (4.2$\times$ speedup) and model size from 271~MB to 83~MB. We include this as a preliminary exploration rather than a fully integrated system.
 
 Development of the report and scripts was assisted by Claude Code.
 
