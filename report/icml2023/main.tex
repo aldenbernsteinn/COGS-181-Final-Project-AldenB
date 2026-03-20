@@ -13,7 +13,6 @@
 \icmltitlerunning{YOLOv8 for Web UI Element Detection: A CNN Ablation Study}
 
 \begin{document}
-\renewcommand{\icmlconference}{COGS 181 Final Project, UC San Diego, Winter 2026}
 
 \twocolumn[
 \icmltitle{YOLOv8 for Web UI Element Detection:\\A CNN Ablation Study}
@@ -33,11 +32,11 @@
 \vskip 0.3in
 ]
 
-\printAffiliationsAndNotice{}
+% skip \printAffiliationsAndNotice to remove fake ICML footer
 
 % ============================================================
 \begin{abstract}
-We apply YOLOv8, a convolutional neural network (CNN) for object detection, to the task of localizing UI elements in web page screenshots. We crawl $\sim$260K screenshots from the Tranco Top~1M websites and conduct \textbf{14 controlled ablation experiments} covering (a)~architectures (YOLOv8n/s/m and a custom model), (b)~network depth, (c)~optimizers (SGD vs.\ AdamW), (d)~pooling (max vs.\ average), and (e)~activation functions (SiLU vs.\ ReLU), plus learning rate, resolution, augmentation, and initialization. We find that architecture choice dominates all other hyperparameters, but the biggest improvement comes from \textbf{data preparation}: consolidating 16 noisy classes into a single \texttt{ui\_element} class with deduplication and diverse sampling improves mAP50 from 0.136 (best 5-class) to \textbf{0.323} (1-class)---a 2.4$\times$ gain using the same model. This confirms OmniParser's~\cite{omniparser} single-class approach on independent data. We also train a text classifier for a practical application beyond the core CNN work. Development was assisted by Claude Code.
+We apply YOLOv8, a convolutional neural network (CNN) for object detection, to the task of localizing UI elements in web page screenshots. We crawl $\sim$260K screenshots from the Tranco Top~1M websites and conduct \textbf{14 controlled ablation experiments} covering (a)~architectures (YOLOv8n/s/m and a custom model), (b)~network depth, (c)~optimizers (SGD vs.\ AdamW), (d)~pooling (max vs.\ average), and (e)~activation functions (SiLU vs.\ ReLU), plus learning rate, resolution, augmentation, and initialization. We find that architecture choice dominates all other hyperparameters, but the biggest improvement comes from \textbf{data preparation}: consolidating 16 noisy classes into a single \texttt{ui\_element} class with deduplication and diverse sampling improves mAP50 from 0.136 (best 5-class) to \textbf{0.323} (1-class)---a 2.4$\times$ gain using the same model. This confirms OmniParser's~\cite{omniparser} single-class approach on independent data. We also train a text classifier for a practical application beyond the core CNN work. Development of the report and scripts was assisted by Claude Code.
 \end{abstract}
 
 % ============================================================
@@ -73,21 +72,21 @@ We built a Playwright-based web crawler that visits websites from the Tranco Top
 
 YOLOv8 is a fully convolutional network with three parts, each containing components we ablate:
 
-\textbf{Backbone (CSPDarknet53).} Convolutional layers with Cross-Stage Partial connections extract features at multiple scales through stride-2 downsampling and \textbf{C2f blocks}---residual bottleneck modules whose count is controlled by a \textit{depth multiplier}. All convolutions use \textbf{SiLU} activation by default ($x \cdot \sigma(x)$, a smooth alternative to ReLU).
+\textbf{Backbone (CSPDarknet53).} Convolutional layers with Cross-Stage Partial connections extract features at multiple scales through stride-2 downsampling and \textbf{C2f blocks}---residual bottleneck modules that work like stacking conv layers but with a shortcut that preserves the original features (similar to ResNet skip connections). Their repeat count is controlled by a \textit{depth multiplier}. All convolutions use \textbf{SiLU} activation by default ($x \cdot \sigma(x)$), which unlike ReLU ($\max(0,x)$) allows small negative gradients through, reducing the dead neuron problem.
 
 \textbf{Neck (Feature Pyramid Network).} Multi-scale features are fused via upsampling and concatenation, similar to how skip connections in ResNet preserve spatial information across depths.
 
-\textbf{Head + SPPF.} Detection heads predict boxes and classes at three scales. The \textbf{SPPF module} applies cascaded \texttt{MaxPool2d} for multi-scale context---we test \texttt{AvgPool2d} as an alternative.
+\textbf{Head + SPPF.} Detection heads predict bounding boxes and class probabilities at three scales in a single forward pass (unlike image classification which outputs one label per image, detection outputs multiple boxes per image). The \textbf{SPPF module} applies cascaded \texttt{MaxPool2d} at different kernel sizes to capture both local details and global context---we test \texttt{AvgPool2d} as an alternative, similar to the pooling comparison between max and average pooling in standard CNNs.
 
 The model family spans nano (3.2M params), small (11.2M), and medium (25.9M) variants.
 
 \subsection{Training Setup}
 
-\textbf{Hardware.} All training on an NVIDIA RTX 5090 GPU.
+\textbf{Hardware.} All training on an NVIDIA GPU.
 
 \textbf{Baseline.} YOLOv8n (nano), 640$\times$640, SGD, lr=0.01, 25 epochs, mosaic augmentation, SiLU, max pooling, COCO-pretrained, batch 16. For the 5-class ablation, we use 8.5\% of data ($\sim$22K images) to fit all 14 experiments in our compute budget. The 1-class experiment uses the full diverse subset ($\sim$47K images).
 
-\textbf{Metrics.} mAP50, mAP50-95, precision, recall, CPU latency (ms), model size (MB).
+\textbf{Metrics.} We report mAP50 (mean Average Precision at IoU$\geq$0.5: a predicted box counts as correct if it overlaps at least 50\% with the ground truth), mAP50-95 (averaged over stricter IoU thresholds), precision, recall, CPU latency (ms), and model size (MB).
 
 % ============================================================
 \section{Experiments}
@@ -156,7 +155,7 @@ baseline & 0.002 & 0.001 & 0.002 & 0.005 & 1112 & 5.9 \\
 
 \textbf{(d) Max pooling beats average pooling.} AvgPool2d in SPPF yields 0.106 vs.\ 0.108 with MaxPool2d. Max pooling preserves sharp features like edges of buttons and input fields. The difference is small (0.002 mAP50).
 
-\textbf{(e) SiLU beats ReLU.} Replacing SiLU with ReLU drops mAP50 from 0.108 to 0.103. SiLU's smooth gradient helps optimization---consistent with why modern architectures default to it over the simpler ReLU we used in HW4.
+\textbf{(e) SiLU beats ReLU.} Replacing SiLU with ReLU drops mAP50 from 0.108 to 0.103. SiLU's smooth gradient helps optimization---consistent with why modern architectures default to it over ReLU.
 
 \textbf{Best combo.} Combining winners (YOLOv8s + AdamW + lr=0.001 + 1280px + no mosaic) gives only 0.136---just +0.002 over standalone YOLOv8s. Hyperparameter tuning has diminishing returns.
 
@@ -219,8 +218,6 @@ This was the most important lesson from the project: cleaning the data and simpl
 
 \subsection{Discussion}
 
-\textbf{What we learned about CNNs.} The homework assignments had us training simple CNNs on balanced datasets like CIFAR-10, where architecture and hyperparameter tuning make clear differences. On our real-world crawled data, those same knobs (pooling, activation, depth) barely moved the needle compared to data quality. This was surprising and is probably the most useful takeaway: on a new detection task with noisy labels, fix the data first.
-
 \textbf{OmniParser replication.} Our 1-class results independently confirm that YOLOv8 with single-class detection works for UI elements, matching OmniParser's design choice. The difference is we provide a systematic ablation showing \textit{why} it works---multi-class detection fails due to class imbalance, not model limitations.
 
 \textbf{Validated defaults.} SiLU $>$ ReLU (+0.005 mAP50) and max pooling $>$ average pooling (+0.002) are small but consistent. YOLOv8's default component choices are well-tuned.
@@ -238,7 +235,7 @@ The main takeaway for training CNNs on new tasks: invest in data quality before 
 
 Beyond the core CNN work, we explored a practical application: detecting prompt injection attacks in the text content of UI elements. YOLO finds the elements; OCR extracts their text; a classifier flags malicious content.
 
-We trained a DeBERTa-v3-xsmall~\cite{deberta} text classifier (22M parameters) using focal loss~\cite{focalloss} ($\gamma=2.0$, $\alpha=[0.7,0.3]$) on 23K balanced examples from six public sources. We ran 17 additional ablation experiments across architecture, loss function, class weighting, sequence length, and data composition. Table~\ref{tab:classifier_benchmarks} compares against two published baselines on independent benchmarks with zero training data overlap.
+We trained a DeBERTa-v3-xsmall~\cite{deberta} text classifier (22M parameters) using focal loss~\cite{focalloss} ($\gamma=2.0$, $\alpha=[0.7,0.3]$)---a variant of cross-entropy that down-weights easy examples so the model focuses on hard cases, which helps when most text is clearly benign. We trained on 23K balanced examples from six public sources. We ran 17 additional ablation experiments across architecture, loss function, class weighting, sequence length, and data composition. Table~\ref{tab:classifier_benchmarks} compares against two published baselines on independent benchmarks with zero training data overlap.
 
 \begin{table}[h]
 \caption{Text classifier on independent benchmarks. Our 22M-parameter model outperforms larger baselines on most benchmarks.}
@@ -265,7 +262,7 @@ InjecGuard (144) & Acc & \textbf{71.5} & 65.3 & 43.8 \\
 
 For deployment, we exported to ONNX with INT8 quantization, reducing latency from 16.1ms to 3.8ms (4.2$\times$ speedup) and model size from 271~MB to 83~MB.
 
-Development was assisted by Claude Code.
+Development of the report and scripts was assisted by Claude Code.
 
 % ============================================================
 \bibliography{main}

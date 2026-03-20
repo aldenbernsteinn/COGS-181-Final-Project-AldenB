@@ -69,6 +69,7 @@ python generate_figures.py
 ├── generate_training_data.py      # Playwright web crawler
 ├── train_injection_classifier.py  # DeBERTa text classifier
 ├── generate_figures.py            # Report figures
+├── generate_classifier_figures.py # Classifier benchmark figures
 ├── inference.py                   # Single-image YOLO inference
 ├── practical_application.py       # Full detection + classification pipeline
 ├── optimize_model.py              # ONNX export + INT8 quantization
@@ -77,18 +78,33 @@ python generate_figures.py
 │   ├── custom_yolo.yaml           # Custom lightweight architecture (0.71 MB)
 │   ├── custom_yolo_deep.yaml      # Doubled depth variant
 │   ├── custom_yolo_relu.yaml      # ReLU activation variant
-│   └── custom_yolo_avgpool.yaml   # Average pooling variant
+│   ├── custom_yolo_avgpool.yaml   # Average pooling variant
+│   └── sppf_avg.py                # AvgPool2d SPPF module
 ├── report/icml2023/               # LaTeX report (ICML format)
-├── results_yolo_5cls/             # 14 ablation experiment results
-└── results_yolo_1cls/             # 1-class experiment results
+├── results_yolo_5cls/             # 14 ablation experiment results (JSON)
+├── results_yolo_1cls/             # 1-class experiment results (JSON)
+├── results_classifier/            # 17 classifier experiment results (JSON)
+└── optimized_models/              # ONNX quantization benchmark results
 ```
 
 ## Key Results
 
-| Setup | mAP50 | Recall | Training Images |
-|---|---|---|---|
-| 5-class baseline (YOLOv8n) | 0.002 | 0.005 | 22K |
-| 5-class best combo (YOLOv8s) | 0.136 | 0.169 | 22K |
-| **1-class diverse (YOLOv8n)** | **0.323** | **0.426** | **47K** |
+### Hyperparameter Ablation (14 experiments, 5-class)
 
-Data cleaning and class consolidation gave a 2.4x improvement over the best hyperparameter-tuned model.
+| Category | Finding | mAP50 |
+|---|---|---|
+| (a) Architecture | YOLOv8s (11.2M) best; YOLOv8m (25.9M) no further gain | 0.134 |
+| (b) Layers | Doubling depth does not improve over baseline | 0.107 |
+| (c) Optimizer | AdamW slightly better recall than SGD | 0.110 |
+| (d) Pooling | Max pooling > average pooling | 0.108 vs 0.106 |
+| (e) Activation | SiLU > ReLU | 0.108 vs 0.103 |
+
+### Final Model (1-class, cleaned data)
+
+| Model | mAP50 | Precision | Recall | CPU (ms) |
+|---|---|---|---|---|
+| YOLOv8n, 1-class diverse (47K images) | **0.323** | 0.427 | 0.426 | 19.8 |
+
+Architecture choice dominated all hyperparameters, but data refinement (16→5→1 class consolidation + deduplication + diverse sampling) produced the largest single improvement (2.4x).
+
+All experiment results are included as JSON files in the `results_*/` directories, so paper numbers can be verified without retraining.
