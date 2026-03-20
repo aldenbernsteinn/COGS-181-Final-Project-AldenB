@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+__MACOSX/
+
+# LaTeX build artifacts
+report/icml2023/*.aux
+report/icml2023/*.log
+report/icml2023/*.out
+report/icml2023/*.blg
+report/icml2023/*.bbl
+*.synctex.gz
+
+# Data (too large for git — regenerate via scripts)
+data/
+
+# Model weights
+weights/
+*.pt
+*.onnx
+results_yolo_5cls/*/weights/
+results_classifier/*/model.safetensors
+results_classifier/*/spm.model
+
+# TensorBoard
+events.out.tfevents.*
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code
+.claude/
+
+# Windows
+NUL
+Thumbs.db

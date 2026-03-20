@@ -1,0 +1,36 @@
+{
+  "experiment": "layers_deep",
+  "config": {
+    "model": "models\\custom_yolo_deep.yaml",
+    "data": "data\\crawled_5cls\\dataset.yaml",
+    "epochs": 25,
+    "imgsz": 640,
+    "lr0": 0.01,
+    "batch": 16,
+    "fraction": 0.085,
+    "optimizer": "auto",
+    "pretrained": false,
+    "mosaic": 1.0
+  },
+  "actual_batch": 16,
+  "group": "layers",
+  "train_time_seconds": 3197.719470500946,
+  "metrics": {
+    "mAP50": 0.10718688516033695,
+    "mAP50_95": 0.07126628300659536,
+    "precision": 0.3831185027223113,
+    "recall": 0.11820416807992354,
+    "per_class_ap50": {
+      "interactive": 0.3186585259566469,
+      "form_input": 0.21381914463412074,
+      "form_control": 0.0,
+      "text_label": 0.0018304946082503704,
+      "media": 0.0016262606026667217
+    }
+  },
+  "speed": {
+    "gpu_ms": 10.33,
+    "cpu_ms": 28.2
+  },
+  "model_size_mb": 7.99
+}

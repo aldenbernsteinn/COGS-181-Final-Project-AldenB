@@ -1,0 +1,36 @@
+{
+  "experiment": "activation_relu",
+  "config": {
+    "model": "models\\custom_yolo_relu.yaml",
+    "data": "data\\crawled_5cls\\dataset.yaml",
+    "epochs": 25,
+    "imgsz": 640,
+    "lr0": 0.01,
+    "batch": 16,
+    "fraction": 0.085,
+    "optimizer": "auto",
+    "pretrained": false,
+    "mosaic": 1.0
+  },
+  "actual_batch": 16,
+  "group": "activation",
+  "train_time_seconds": 2748.495961666107,
+  "metrics": {
+    "mAP50": 0.10348987242637753,
+    "mAP50_95": 0.06390754039692342,
+    "precision": 0.3584965035679262,
+    "recall": 0.1306597211515731,
+    "per_class_ap50": {
+      "interactive": 0.3102672057897749,
+      "form_input": 0.20205903952571808,
+      "form_control": 0.0,
+      "text_label": 0.0022300041637614387,
+      "media": 0.002893112652633296
+    }
+  },
+  "speed": {
+    "gpu_ms": 7.07,
+    "cpu_ms": 19.3
+  },
+  "model_size_mb": 5.93
+}

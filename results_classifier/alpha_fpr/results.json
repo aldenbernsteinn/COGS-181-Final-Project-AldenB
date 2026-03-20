@@ -1,0 +1,84 @@
+{
+  "experiment": "alpha_fpr",
+  "group": "alpha",
+  "config": {
+    "model_name": "microsoft/deberta-v3-xsmall",
+    "max_length": 512,
+    "batch_size": 32,
+    "learning_rate": 2e-05,
+    "num_epochs": 5,
+    "focal_gamma": 2.0,
+    "focal_alpha": [
+      0.7,
+      0.3
+    ],
+    "label_smoothing": 0.05,
+    "balance_ratio": 0.3,
+    "exclude_sources": []
+  },
+  "data_sources": {
+    "deepset": 662,
+    "safeguard": 9834,
+    "spml": 3000,
+    "ultrachat": 8807,
+    "no_robots": 9638,
+    "generated": 2679,
+    "jackhhao": 1306
+  },
+  "train_size": 18487,
+  "val_size": 2311,
+  "test_size": 2311,
+  "train_time_seconds": 587.9,
+  "best_val_f1": 0.9773,
+  "test": {
+    "accuracy": 0.99,
+    "f1": 0.9833,
+    "precision": 0.9971,
+    "recall": 0.97
+  },
+  "challenge_accuracy": 0.9841,
+  "cpu_ms_per_text": 15.6,
+  "benchmarks": {
+    "notinject": {
+      "accuracy": 0.6755,
+      "fpr": 0.3245,
+      "n": 339
+    },
+    "pav_InjecGuard_valid": {
+      "accuracy": 0.6667,
+      "f1": 0.4667,
+      "fpr": 0.2188,
+      "n": 144
+    },
+    "pav_spikee": {
+      "accuracy": 0.0811,
+      "f1": 0.1238,
+      "fpr": 0.4667,
+      "n": 986
+    },
+    "pav_bipia_code": {
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "fpr": 0.0,
+      "n": 50
+    },
+    "pav_bipia_text": {
+      "accuracy": 0.08,
+      "f1": 0.1481,
+      "fpr": 0.0,
+      "n": 75
+    },
+    "pav_not_inject": {
+      "accuracy": 0.6755,
+      "f1": 0.0,
+      "fpr": 0.3245,
+      "n": 339
+    },
+    "pav_wildguard": {
+      "accuracy": 0.7951,
+      "f1": 0.0,
+      "fpr": 0.2049,
+      "n": 971
+    }
+  }
+}

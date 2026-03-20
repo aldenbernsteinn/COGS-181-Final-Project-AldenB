@@ -1,0 +1,32 @@
+{
+  "experiment": "diverse_51k",
+  "config": {
+    "model": "yolov8n.pt",
+    "data": "data\\crawled_1cls_diverse\\dataset.yaml",
+    "epochs": 25,
+    "imgsz": 640,
+    "lr0": 0.01,
+    "batch": 16,
+    "fraction": 1.0,
+    "optimizer": "auto",
+    "pretrained": true,
+    "mosaic": 1.0
+  },
+  "actual_batch": 16,
+  "group": "data_scaling",
+  "train_time_seconds": 5843.584561824799,
+  "metrics": {
+    "mAP50": 0.32338030528422823,
+    "mAP50_95": 0.21091822015138803,
+    "precision": 0.426831493766381,
+    "recall": 0.42589253516047604,
+    "per_class_ap50": {
+      "ui_element": 0.32338030528422823
+    }
+  },
+  "speed": {
+    "gpu_ms": 6.32,
+    "cpu_ms": 19.81
+  },
+  "model_size_mb": 5.93
+}

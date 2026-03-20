@@ -1,0 +1,65 @@
+[
+  {
+    "threshold": 0.3,
+    "notinject_acc": 0.5221,
+    "notinject_fpr": 0.4779,
+    "wildguard_acc": 0.6838,
+    "wildguard_fpr": 0.3162,
+    "pav_f1": 0.2949,
+    "pav_acc": 0.4706
+  },
+  {
+    "threshold": 0.4,
+    "notinject_acc": 0.59,
+    "notinject_fpr": 0.41,
+    "wildguard_acc": 0.7703,
+    "wildguard_fpr": 0.2297,
+    "pav_f1": 0.2062,
+    "pav_acc": 0.4749
+  },
+  {
+    "threshold": 0.5,
+    "notinject_acc": 0.6283,
+    "notinject_fpr": 0.3717,
+    "wildguard_acc": 0.828,
+    "wildguard_fpr": 0.172,
+    "pav_f1": 0.1599,
+    "pav_acc": 0.4838
+  },
+  {
+    "threshold": 0.6,
+    "notinject_acc": 0.6578,
+    "notinject_fpr": 0.3422,
+    "wildguard_acc": 0.8651,
+    "wildguard_fpr": 0.1349,
+    "pav_f1": 0.1185,
+    "pav_acc": 0.4897
+  },
+  {
+    "threshold": 0.7,
+    "notinject_acc": 0.6991,
+    "notinject_fpr": 0.3009,
+    "wildguard_acc": 0.9073,
+    "wildguard_fpr": 0.0927,
+    "pav_f1": 0.0737,
+    "pav_acc": 0.5002
+  },
+  {
+    "threshold": 0.8,
+    "notinject_acc": 1.0,
+    "notinject_fpr": 0.0,
+    "wildguard_acc": 1.0,
+    "wildguard_fpr": 0.0,
+    "pav_f1": 0,
+    "pav_acc": 0.5598
+  },
+  {
+    "threshold": 0.9,
+    "notinject_acc": 1.0,
+    "notinject_fpr": 0.0,
+    "wildguard_acc": 1.0,
+    "wildguard_fpr": 0.0,
+    "pav_f1": 0,
+    "pav_acc": 0.5598
+  }
+]

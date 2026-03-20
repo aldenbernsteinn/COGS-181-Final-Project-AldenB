@@ -1,0 +1,507 @@
+[
+  {
+    "experiment": "activation_relu",
+    "config": {
+      "model": "models\\custom_yolo_relu.yaml",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": false,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "activation",
+    "train_time_seconds": 2748.495961666107,
+    "metrics": {
+      "mAP50": 0.10348987242637753,
+      "mAP50_95": 0.06390754039692342,
+      "precision": 0.3584965035679262,
+      "recall": 0.1306597211515731,
+      "per_class_ap50": {
+        "interactive": 0.3102672057897749,
+        "form_input": 0.20205903952571808,
+        "form_control": 0.0,
+        "text_label": 0.0022300041637614387,
+        "media": 0.002893112652633296
+      }
+    },
+    "speed": {
+      "gpu_ms": 7.07,
+      "cpu_ms": 19.3
+    },
+    "model_size_mb": 5.93
+  },
+  {
+    "experiment": "arch_custom_cpu",
+    "config": {
+      "model": "models\\custom_yolo.yaml",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": false,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "arch",
+    "train_time_seconds": 2380.897386789322,
+    "metrics": {
+      "mAP50": 0.07664123872440183,
+      "mAP50_95": 0.04206265579647269,
+      "precision": 0.3569713934957867,
+      "recall": 0.10588905419711594,
+      "per_class_ap50": {
+        "interactive": 0.2543263792490673,
+        "form_input": 0.12475088075229163,
+        "form_control": 0.0,
+        "text_label": 0.002105569792360272,
+        "media": 0.002023363828289937
+      }
+    },
+    "speed": {
+      "gpu_ms": 4.51,
+      "cpu_ms": 9.81
+    },
+    "model_size_mb": 0.71
+  },
+  {
+    "experiment": "arch_yolov8m",
+    "config": {
+      "model": "yolov8m.pt",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": true,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "arch",
+    "train_time_seconds": 4015.514358997345,
+    "metrics": {
+      "mAP50": 0.128476482111139,
+      "mAP50_95": 0.09380376328818744,
+      "precision": 0.4717585598733697,
+      "recall": 0.1224821743730861,
+      "per_class_ap50": {
+        "interactive": 0.3641153514859632,
+        "form_input": 0.2711243275101666,
+        "form_control": 0.0,
+        "text_label": 0.004930870389064718,
+        "media": 0.0022118611705004964
+      }
+    },
+    "speed": {
+      "gpu_ms": 7.84,
+      "cpu_ms": 106.52
+    },
+    "model_size_mb": 49.6
+  },
+  {
+    "experiment": "arch_yolov8s",
+    "config": {
+      "model": "yolov8s.pt",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": true,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "arch",
+    "train_time_seconds": 2912.9512555599213,
+    "metrics": {
+      "mAP50": 0.13396623008391004,
+      "mAP50_95": 0.094410387943088,
+      "precision": 0.43060088620986664,
+      "recall": 0.14791807454005979,
+      "per_class_ap50": {
+        "interactive": 0.3752650964043653,
+        "form_input": 0.28815739850440447,
+        "form_control": 0.0,
+        "text_label": 0.0051683080685576725,
+        "media": 0.001240347442222828
+      }
+    },
+    "speed": {
+      "gpu_ms": 5.21,
+      "cpu_ms": 39.32
+    },
+    "model_size_mb": 21.45
+  },
+  {
+    "experiment": "aug_no_mosaic",
+    "config": {
+      "model": "yolov8n.pt",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": true,
+      "mosaic": 0.0
+    },
+    "actual_batch": 16,
+    "group": "augmentation",
+    "train_time_seconds": 2404.745055437088,
+    "metrics": {
+      "mAP50": 0.11629180668641934,
+      "mAP50_95": 0.07624333484115829,
+      "precision": 0.4083330751199944,
+      "recall": 0.127900908852641,
+      "per_class_ap50": {
+        "interactive": 0.3441870490227196,
+        "form_input": 0.23072091637024267,
+        "form_control": 0.0,
+        "text_label": 0.004724348098279845,
+        "media": 0.0018267199408546282
+      }
+    },
+    "speed": {
+      "gpu_ms": 5.06,
+      "cpu_ms": 18.22
+    },
+    "model_size_mb": 5.93
+  },
+  {
+    "experiment": "baseline",
+    "config": {
+      "model": "yolov8n.pt",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": true,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "baseline",
+    "train_time_seconds": 407.35620856285095,
+    "metrics": {
+      "mAP50": 0.0016080071797042205,
+      "mAP50_95": 0.0009229772387661159,
+      "precision": 0.002150106207222091,
+      "recall": 0.00535222857759551,
+      "per_class_ap50": {
+        "interactive": 0.00792525256398347,
+        "form_input": 0.000114783334537632,
+        "form_control": 0.0,
+        "text_label": 0.0,
+        "media": 0.0
+      }
+    },
+    "speed": {
+      "gpu_ms": 15.12,
+      "cpu_ms": 1111.94
+    },
+    "model_size_mb": 5.93
+  },
+  {
+    "experiment": "best_combo",
+    "config": {
+      "model": "yolov8s.pt",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 1280,
+      "lr0": 0.001,
+      "batch": 8,
+      "fraction": 0.085,
+      "optimizer": "AdamW",
+      "pretrained": false,
+      "mosaic": 0.0
+    },
+    "actual_batch": 8,
+    "group": "best_combo",
+    "train_time_seconds": 7604.304274559021,
+    "metrics": {
+      "mAP50": 0.13621859722852314,
+      "mAP50_95": 0.10456359133561044,
+      "precision": 0.430904204554012,
+      "recall": 0.16914995811620567,
+      "per_class_ap50": {
+        "interactive": 0.37504194889305364,
+        "form_input": 0.26253031465397947,
+        "form_control": 0.018630229875355224,
+        "text_label": 0.019417088803687647,
+        "media": 0.005473403916539681
+      }
+    },
+    "speed": {
+      "gpu_ms": 8.03,
+      "cpu_ms": 183.69
+    },
+    "model_size_mb": 21.53
+  },
+  {
+    "experiment": "imgsz_1280",
+    "config": {
+      "model": "yolov8n.pt",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 1280,
+      "lr0": 0.01,
+      "batch": 8,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": true,
+      "mosaic": 1.0
+    },
+    "actual_batch": 8,
+    "group": "imgsz",
+    "train_time_seconds": 6539.714958667755,
+    "metrics": {
+      "mAP50": 0.12561373480618557,
+      "mAP50_95": 0.09030234896510692,
+      "precision": 0.2128717826959611,
+      "recall": 0.15203718635532149,
+      "per_class_ap50": {
+        "interactive": 0.3682062786646415,
+        "form_input": 0.2323516581878428,
+        "form_control": 0.017917748917748916,
+        "text_label": 0.004358516214559294,
+        "media": 0.005234472046135332
+      }
+    },
+    "speed": {
+      "gpu_ms": 6.52,
+      "cpu_ms": 63.98
+    },
+    "model_size_mb": 6.01
+  },
+  {
+    "experiment": "init_scratch",
+    "config": {
+      "model": "yolov8n.yaml",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": false,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "init",
+    "train_time_seconds": 2436.917803287506,
+    "metrics": {
+      "mAP50": 0.10836547551461914,
+      "mAP50_95": 0.07011320060935221,
+      "precision": 0.3861778463498714,
+      "recall": 0.13258184684406896,
+      "per_class_ap50": {
+        "interactive": 0.3205581077697593,
+        "form_input": 0.21694418334946952,
+        "form_control": 0.0,
+        "text_label": 0.0029281309033165268,
+        "media": 0.0013969555505502734
+      }
+    },
+    "speed": {
+      "gpu_ms": 5.9,
+      "cpu_ms": 18.74
+    },
+    "model_size_mb": 5.93
+  },
+  {
+    "experiment": "layers_deep",
+    "config": {
+      "model": "models\\custom_yolo_deep.yaml",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": false,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "layers",
+    "train_time_seconds": 3197.719470500946,
+    "metrics": {
+      "mAP50": 0.10718688516033695,
+      "mAP50_95": 0.07126628300659536,
+      "precision": 0.3831185027223113,
+      "recall": 0.11820416807992354,
+      "per_class_ap50": {
+        "interactive": 0.3186585259566469,
+        "form_input": 0.21381914463412074,
+        "form_control": 0.0,
+        "text_label": 0.0018304946082503704,
+        "media": 0.0016262606026667217
+      }
+    },
+    "speed": {
+      "gpu_ms": 10.33,
+      "cpu_ms": 28.2
+    },
+    "model_size_mb": 7.99
+  },
+  {
+    "experiment": "lr_0.001",
+    "config": {
+      "model": "yolov8n.pt",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.001,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": true,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "lr",
+    "train_time_seconds": 2707.613222360611,
+    "metrics": {
+      "mAP50": 0.11572628481891407,
+      "mAP50_95": 0.07828801742190727,
+      "precision": 0.4315945434134664,
+      "recall": 0.11518101893250285,
+      "per_class_ap50": {
+        "interactive": 0.3585202471829829,
+        "form_input": 0.21480308550712018,
+        "form_control": 0.0,
+        "text_label": 0.0032130398270029444,
+        "media": 0.0020950515774643607
+      }
+    },
+    "speed": {
+      "gpu_ms": 6.5,
+      "cpu_ms": 19.67
+    },
+    "model_size_mb": 5.93
+  },
+  {
+    "experiment": "lr_0.005",
+    "config": {
+      "model": "yolov8n.pt",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.005,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": true,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "lr",
+    "train_time_seconds": 2671.079117536545,
+    "metrics": {
+      "mAP50": 0.11572628481891407,
+      "mAP50_95": 0.07828801742190727,
+      "precision": 0.4315945434134664,
+      "recall": 0.11518101893250285,
+      "per_class_ap50": {
+        "interactive": 0.3585202471829829,
+        "form_input": 0.21480308550712018,
+        "form_control": 0.0,
+        "text_label": 0.0032130398270029444,
+        "media": 0.0020950515774643607
+      }
+    },
+    "speed": {
+      "gpu_ms": 6.65,
+      "cpu_ms": 19.36
+    },
+    "model_size_mb": 5.93
+  },
+  {
+    "experiment": "optimizer_adamw",
+    "config": {
+      "model": "yolov8n.pt",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "AdamW",
+      "pretrained": true,
+      "mosaic": 1.0
+    },
+    "actual_batch": 16,
+    "group": "optimizer",
+    "train_time_seconds": 2764.085211753845,
+    "metrics": {
+      "mAP50": 0.11018766171580034,
+      "mAP50_95": 0.07022512508848969,
+      "precision": 0.3582744678212898,
+      "recall": 0.1555832768030588,
+      "per_class_ap50": {
+        "interactive": 0.3231051539403879,
+        "form_input": 0.22062598675531434,
+        "form_control": 0.0,
+        "text_label": 0.0023710915697236577,
+        "media": 0.00483607631357571
+      }
+    },
+    "speed": {
+      "gpu_ms": 6.78,
+      "cpu_ms": 19.29
+    },
+    "model_size_mb": 5.93
+  },
+  {
+    "experiment": "pooling_avg",
+    "config": {
+      "model": "models\\custom_yolo_avgpool.yaml",
+      "data": "data\\crawled_5cls\\dataset.yaml",
+      "epochs": 25,
+      "imgsz": 640,
+      "lr0": 0.01,
+      "batch": 16,
+      "fraction": 0.085,
+      "optimizer": "auto",
+      "pretrained": false,
+      "mosaic": 1.0,
+      "_patch_avgpool": true
+    },
+    "actual_batch": 16,
+    "group": "pooling",
+    "train_time_seconds": 2828.54630112648,
+    "metrics": {
+      "mAP50": 0.10555801897909363,
+      "mAP50_95": 0.06662048750196022,
+      "precision": 0.41158321711647855,
+      "recall": 0.10894788165643983,
+      "per_class_ap50": {
+        "interactive": 0.31287472452734455,
+        "form_input": 0.2098484370011423,
+        "form_control": 0.0,
+        "text_label": 0.00376886895999623,
+        "media": 0.0012980644069851344
+      }
+    },
+    "speed": {
+      "gpu_ms": 6.57,
+      "cpu_ms": 18.66
+    },
+    "model_size_mb": 5.93
+  }
+]

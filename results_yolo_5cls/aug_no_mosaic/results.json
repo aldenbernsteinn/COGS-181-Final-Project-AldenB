@@ -1,0 +1,36 @@
+{
+  "experiment": "aug_no_mosaic",
+  "config": {
+    "model": "yolov8n.pt",
+    "data": "data\\crawled_5cls\\dataset.yaml",
+    "epochs": 25,
+    "imgsz": 640,
+    "lr0": 0.01,
+    "batch": 16,
+    "fraction": 0.085,
+    "optimizer": "auto",
+    "pretrained": true,
+    "mosaic": 0.0
+  },
+  "actual_batch": 16,
+  "group": "augmentation",
+  "train_time_seconds": 2404.745055437088,
+  "metrics": {
+    "mAP50": 0.11629180668641934,
+    "mAP50_95": 0.07624333484115829,
+    "precision": 0.4083330751199944,
+    "recall": 0.127900908852641,
+    "per_class_ap50": {
+      "interactive": 0.3441870490227196,
+      "form_input": 0.23072091637024267,
+      "form_control": 0.0,
+      "text_label": 0.004724348098279845,
+      "media": 0.0018267199408546282
+    }
+  },
+  "speed": {
+    "gpu_ms": 5.06,
+    "cpu_ms": 18.22
+  },
+  "model_size_mb": 5.93
+}

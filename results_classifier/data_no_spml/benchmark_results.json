@@ -1,0 +1,230 @@
+{
+  "notinject": [
+    {
+      "model": "Our data_no_spml (22M)",
+      "accuracy": 0.7286135693215339,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.2713864306784661,
+      "tp": 0,
+      "fp": 92,
+      "fn": 0,
+      "tn": 247
+    },
+    {
+      "model": "ProtectAI DeBERTa-v3 (200M)",
+      "accuracy": 0.5722713864306784,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.4277286135693215,
+      "tp": 0,
+      "fp": 145,
+      "fn": 0,
+      "tn": 194
+    },
+    {
+      "model": "Meta Prompt Guard (86M)",
+      "accuracy": 0.0029498525073746312,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.9970501474926253,
+      "tp": 0,
+      "fp": 338,
+      "fn": 0,
+      "tn": 1
+    }
+  ],
+  "notinject_english": [
+    {
+      "model": "Our data_no_spml (22M)",
+      "accuracy": 0.8932806324110671,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.1067193675889328,
+      "tp": 0,
+      "fp": 27,
+      "fn": 0,
+      "tn": 226
+    },
+    {
+      "model": "ProtectAI DeBERTa-v3 (200M)",
+      "accuracy": 0.6245059288537549,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.37549407114624506,
+      "tp": 0,
+      "fp": 95,
+      "fn": 0,
+      "tn": 158
+    },
+    {
+      "model": "Meta Prompt Guard (86M)",
+      "accuracy": 0.0,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 1.0,
+      "tp": 0,
+      "fp": 253,
+      "fn": 0,
+      "tn": 0
+    }
+  ],
+  "gandalf": [
+    {
+      "model": "Our data_no_spml (22M)",
+      "accuracy": 0.9196428571428571,
+      "f1": 0.9581395348837208,
+      "precision": 1.0,
+      "recall": 0.9196428571428571,
+      "false_positive_rate": 0.0,
+      "tp": 103,
+      "fp": 0,
+      "fn": 9,
+      "tn": 0
+    },
+    {
+      "model": "ProtectAI DeBERTa-v3 (200M)",
+      "accuracy": 1.0,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "tp": 112,
+      "fp": 0,
+      "fn": 0,
+      "tn": 0
+    },
+    {
+      "model": "Meta Prompt Guard (86M)",
+      "accuracy": 1.0,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0,
+      "tp": 112,
+      "fp": 0,
+      "fn": 0,
+      "tn": 0
+    }
+  ],
+  "wildguard": [
+    {
+      "model": "Our data_no_spml (22M)",
+      "accuracy": 0.9783728115345005,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.021627188465499485,
+      "tp": 0,
+      "fp": 21,
+      "fn": 0,
+      "tn": 950
+    },
+    {
+      "model": "ProtectAI DeBERTa-v3 (200M)",
+      "accuracy": 0.7518022657054583,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.2481977342945417,
+      "tp": 0,
+      "fp": 241,
+      "fn": 0,
+      "tn": 730
+    },
+    {
+      "model": "Meta Prompt Guard (86M)",
+      "accuracy": 0.06694129763130793,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_positive_rate": 0.933058702368692,
+      "tp": 0,
+      "fp": 906,
+      "fn": 0,
+      "tn": 65
+    }
+  ],
+  "spikee": [
+    {
+      "model": "Our data_no_spml (22M)",
+      "accuracy": 0.11967545638945233,
+      "f1": 0.1811320754716981,
+      "precision": 0.9230769230769231,
+      "recall": 0.100418410041841,
+      "false_positive_rate": 0.26666666666666666,
+      "tp": 96,
+      "fp": 8,
+      "fn": 860,
+      "tn": 22
+    },
+    {
+      "model": "ProtectAI DeBERTa-v3 (200M)",
+      "accuracy": 0.4107505070993915,
+      "f1": 0.5680297397769517,
+      "precision": 0.9820051413881749,
+      "recall": 0.399581589958159,
+      "false_positive_rate": 0.23333333333333334,
+      "tp": 382,
+      "fp": 7,
+      "fn": 574,
+      "tn": 23
+    },
+    {
+      "model": "Meta Prompt Guard (86M)",
+      "accuracy": 0.9776876267748479,
+      "f1": 0.9886246122026887,
+      "precision": 0.9775051124744376,
+      "recall": 1.0,
+      "false_positive_rate": 0.7333333333333333,
+      "tp": 956,
+      "fp": 22,
+      "fn": 0,
+      "tn": 8
+    }
+  ],
+  "injecguard": [
+    {
+      "model": "Our data_no_spml (22M)",
+      "accuracy": 0.7152777777777778,
+      "f1": 0.4810126582278481,
+      "precision": 0.6129032258064516,
+      "recall": 0.3958333333333333,
+      "false_positive_rate": 0.125,
+      "tp": 19,
+      "fp": 12,
+      "fn": 29,
+      "tn": 84
+    },
+    {
+      "model": "ProtectAI DeBERTa-v3 (200M)",
+      "accuracy": 0.6527777777777778,
+      "f1": 0.5192307692307692,
+      "precision": 0.48214285714285715,
+      "recall": 0.5625,
+      "false_positive_rate": 0.3020833333333333,
+      "tp": 27,
+      "fp": 29,
+      "fn": 21,
+      "tn": 67
+    },
+    {
+      "model": "Meta Prompt Guard (86M)",
+      "accuracy": 0.4375,
+      "f1": 0.5423728813559322,
+      "precision": 0.37209302325581395,
+      "recall": 1.0,
+      "false_positive_rate": 0.84375,
+      "tp": 48,
+      "fp": 81,
+      "fn": 0,
+      "tn": 15
+    }
+  ]
+}
