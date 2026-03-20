@@ -74,7 +74,7 @@ YOLOv8 is a fully convolutional network with three parts, each containing compon
 
 \textbf{Backbone (CSPDarknet53).} Convolutional layers with Cross-Stage Partial connections extract features at multiple scales through stride-2 downsampling and \textbf{C2f blocks}---residual bottleneck modules that work like stacking conv layers but with a shortcut that preserves the original features (similar to ResNet skip connections). Their repeat count is controlled by a \textit{depth multiplier}. All convolutions use \textbf{SiLU} activation by default ($x \cdot \sigma(x)$), which unlike ReLU ($\max(0,x)$) allows small negative gradients through, reducing the dead neuron problem.
 
-\textbf{Neck (Feature Pyramid Network).} Multi-scale features are fused via upsampling and concatenation, similar to how skip connections in ResNet preserve spatial information across depths.
+\textbf{Neck (Feature Pyramid Network).} Multi-scale features are fused via upsampling and concatenation, allowing the detector to combine fine-grained spatial detail from earlier layers with semantic information from deeper layers.
 
 \textbf{Head + SPPF.} Detection heads predict bounding boxes and class probabilities at three scales in a single forward pass (unlike image classification which outputs one label per image, detection outputs multiple boxes per image). The \textbf{SPPF module} applies cascaded \texttt{MaxPool2d} at different kernel sizes to capture both local details and global context---we test \texttt{AvgPool2d} as an alternative, similar to the pooling comparison between max and average pooling in standard CNNs.
 
